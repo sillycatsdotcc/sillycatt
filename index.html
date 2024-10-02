@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@</title>
+    <link rel="icon" href="sources/wowow.png" type="image/png">
+    <style>
+        :root {
+            --background: black;
+            --text: white;
+        }
+
+        @font-face {
+            font-family: 'MagicNight';
+            src: url('fonts/gg sans Medium.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            background-color: var(--background) !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text) !important;
+            font-family: 'MagicNight', Arial, sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .text {
+            font-size: 29px;
+            opacity: 1;
+            transition: opacity 0.52s;
+            cursor: pointer;
+            text-shadow: 0 0 15px rgba(25, 25, 25, 1), 0 0 30px rgba(25, 25, 25, 0.4);
+            display: block;
+            height: 100%;
+            margin: 0;
+        }
+
+        /* Other styles... */
+        #pfp.hidden,
+        #description-content.hidden,
+        #wallpaper.hidden {
+            display: none;
+            opacity: 0;
+        }
+
+        #pfp.show {
+            height: 50px;
+            display: block;
+            border-radius: 1%;
+        }
+
+        .hidden {
+            opacity: 0;
+        }
+
+        #links-container {
+            position: absolute;
+            bottom: 50px;
+            text-align: center;
+        }
+
+        #discord-link,
+        #youtube-link {
+            font-size: 18px;
+            opacity: 0;
+            transition: opacity 0.5s, filter 0.3s;
+            text-decoration: none;
+            font-family: 'MagicNight', Arial, sans-serif;
+            display: block;
+            text-shadow: 
+                1px 1px 0px black,  
+                -1px -1px 0px black,
+                1px -1px 0px black,
+                -1px 1px 0px black;  
+        }
+
+        #discord-link {
+            margin-bottom: 5px;
+        }
+
+        #discord-link:hover,
+        #youtube-link:hover {
+            filter: blur(2px);
+        }
+
+        #discord-link.show,
+        #youtube-link.show {
+            opacity: 1;
+        }
+
+        #image {
+            position: absolute;
+            top: 5000px;
+            left: 58%;
+            transform: translateX(-50%);
+            width: 115px;
+            opacity: 0;
+            transition: opacity 1s;
+        }
+
+        #image.show {
+            opacity: 1;
+        }
+
+        #text-container.show {
+            transition: opacity 1s;
+            background: rgba(24, 24, 24, 0.25) !important;
+            padding: 25px;
+            border-radius: 1px;
+            border: 1px solid #1a1a1a28;
+            align-items: center;
+        }
+
+        #card {
+            transition: opacity 1s;
+            align-items: center;
+            display: flex;
+            column-gap: 20px;
+            justify-content: space-between;
+        }
+
+        .description {
+            padding-top: 10px;
+            margin: 0;
+        }
+
+        .wallholder {
+            overflow: hidden;
+            position: fixed;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            z-index: -10;
+        }
+
+        .wallpaper {
+            opacity: 0;
+            transition: opacity 0.5s, filter 0.3s;
+            position: fixed;
+            left: 0%;
+            top: 0%;
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+            z-index: -9;
+        }
+
+        #background.show {
+            opacity: 1;
+        }
+
+        a {
+            color: var(--text) !important;
+        }
+
+        #play-button,
+        #play-sound1 {
+            display: none; 
+            font-size: 30px;
+            cursor: pointer;
+            margin: 0 10px; 
+        }
+
+        #play-buttons-container {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex; 
+            justify-content: space-between; 
+            width: 100px; 
+            bottom: 350px; 
+        }
+
+        @media (min-width: 768px) {
+            #play-buttons-container {
+                bottom: 390px; 
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="text-container">
+        <div id="card">
+            <img id="pfp" class="hidden" src="./sources/image.png" alt="Profile Picture">
+            <h1 id="text-content" class="text">click anywhere</h1>
+        </div>
+        <p id="description-content" class="description"></p>
+    </div>
+
+    <div id="wallholder" class="wallholder">
+        <video id="background" class="wallpaper" playsinline preload muted loop>
+            <source src="./sources/ocean.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <img id="image" src="sources/image.png" alt="Image">
+    <div id="links-container">
+        <a id="discord-link" href="https://discordapp.com/users/1199831622594338841" target="_blank"></a>
+        <a id="youtube-link" href="https://randomleft.lol" target="_blank"></a>
+    </div>
+    <audio id="audio" src="sources/sound1.mp3" loop></audio>
+    <audio id="audio2" src="sources/sound2.mp3" loop></audio>
+
+    <div id="play-buttons-container">
+        <h2 id="play-sound1">◁</h2>
+        <h2 id="play-button">▷</h2>
+    </div>
+
+    <script>
+        let titleIndex = 0;
+        const titles = ['made by snips', 'who did it'];
+
+        function toggleTitle() {
+            document.title = titles[titleIndex];
+            titleIndex = (titleIndex + 1) % titles.length; // Cycle through titles
+        }
+
+        setInterval(toggleTitle, 1000); // Change title every second
+
+        var descriptionContent = document.getElementById('description-content');
+        var background = document.getElementById('background');
+        var audio = document.getElementById('audio');
+        var audio2 = document.getElementById('audio2');
+        var playButton = document.getElementById('play-button');
+        var playSound1 = document.getElementById('play-sound1');
+
+        descriptionContent.classList.add('hidden');
+        background.classList.add('hidden');
+
+        var textContainer = document.getElementById('text-container');
+        var textContent = document.getElementById('text-content');
+        var isAudioPlaying = false; // Flag to track if audio is playing
+        var isTypingActive = false; // Flag to track if typing effect is active
+
+        document.body.addEventListener('click', function () {
+            if (!isAudioPlaying) { // Check if audio is not already playing
+                audio.currentTime = 0; 
+                audio.play();
+                background.play();
+                isAudioPlaying = true; // Set flag to true
+            }
+
+            setTimeout(function () {
+                textContent.textContent = 'sillycat.cc';
+                textContainer.classList.remove('hidden');
+                descriptionContent.classList.remove('hidden');
+                background.classList.remove('hidden');
+                document.getElementById('pfp').classList.remove('hidden');
+                textContainer.classList.add('show');
+                background.classList.add('show');
+                document.getElementById('pfp').classList.add('show');
+                document.getElementById('discord-link').classList.add('show');
+                document.getElementById('youtube-link').classList.add('show');
+                document.getElementById('image').classList.add('show');
+
+                playButton.style.display = 'block';
+                playSound1.style.display = 'block';
+                
+                if (!isTypingActive) { // Start typing effect only if it's not active
+                    startTypewriterEffect(); 
+                }
+            }, 250);
+        });
+
+        playButton.addEventListener('click', function () {
+            audio.pause();
+            audio.currentTime = 0;
+            audio2.currentTime = 0;
+            audio2.play();
+        });
+
+        playSound1.addEventListener('click', function () {
+            audio2.pause();
+            audio2.currentTime = 0;
+            audio.currentTime = 0;
+            audio.play();
+        });
+
+        background.addEventListener('ended', function() {
+            audio.pause();
+            audio.currentTime = 0; 
+        });
+
+        // Typewriter effect for the description
+        const descriptionText = '- made by snips ??';
+        let index = 0;
+
+        function startTypewriterEffect() {
+            isTypingActive = true; // Set typing effect flag
+            descriptionContent.textContent = ''; // Clear previous text
+
+            function type() {
+                if (index < descriptionText.length) {
+                    descriptionContent.textContent += descriptionText.charAt(index);
+                    index++;
+                    setTimeout(type, 100); // Typing speed
+                } else {
+                    setTimeout(remove, 2000); // Wait before removing
+                }
+            }
+
+            function remove() {
+                if (index > 1) { // Keep the hyphen and the character before it
+                    descriptionContent.textContent = descriptionContent.textContent.slice(0, -1);
+                    index--;
+                    setTimeout(remove, 100); // Removing speed
+                } else {
+                    isTypingActive = false; // Reset typing flag
+                    index = 0; // Reset index for next typing
+                    setTimeout(startTypewriterEffect, 1000); // Restart effect
+                }
+            }
+
+            type(); // Start typing
+        }
+    </script>
+
+</body>
+</html>

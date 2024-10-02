@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            color: white;
+            background-color: #111;
+            display: flex;
+            flex-direction: column; /* Stack elements vertically */
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+
+        .play-button {
+            padding: 15px 20px;
+            background: linear-gradient(to right, #f357bf66, #191414);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: background 0.3s, transform 0.2s;
+            margin-top: 20px; /* Space between text and button */
+        }
+
+        .play-button:hover {
+            background: linear-gradient(to right, #f357bf66, #1a1a1a);
+            transform: scale(1.05);
+        }
+
+        .typewriter {
+            border-right: 2px solid white; /* Cursor effect */
+            white-space: nowrap; /* Prevent wrapping */
+            overflow: hidden; /* Hide overflow */
+            width: 0; /* Start hidden */
+            animation: typing 3s steps(12), blink-caret 0.75s step-end infinite; /* Typewriter effect */
+        }
+
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+            to {
+                width: 12ch; /* Adjust based on the length of your text */
+            }
+        }
+
+        @keyframes blink-caret {
+            50% {
+                border-color: transparent; /* Blink effect */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="typewriter">exampletext</div> <!-- Typewriter text -->
+
+    <button class="play-button" id="play-button" onclick="toggleAudio()">▷ Play</button>
+
+    <audio id="background-audio" loop>
+        <source src="sources/sound3.mp3" type="audio/mpeg">
+        Your browser does not support the audio tag.
+    </audio>
+
+    <script>
+        const audio = document.getElementById('background-audio');
+        const playButton = document.getElementById('play-button');
+
+        function toggleAudio() {
+            if (audio.paused) {
+                audio.currentTime = 0; // Reset audio to start
+                audio.play();
+                playButton.innerText = '|| Pause'; // Change text when playing
+            } else {
+                audio.pause();
+                playButton.innerText = '▷ Play'; // Change text when paused
+            }
+        }
+    </script>
+</body>
+
+</html>
